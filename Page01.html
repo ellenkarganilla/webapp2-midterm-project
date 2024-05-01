@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .login-container {
+            width: 420px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, .2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+            color: #fff;
+            border-radius: 10px;
+            padding: 30px 40px;
+        }
+
+        h2 {
+            font-size: 36px;
+            text-align: center;
+        }
+
+        input[type="text"], input[type="password"] {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            margin: 30px 0;
+            border-radius: 40px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none; 
+            outline: none;
+            border: 2px solid rgba(255, 255, 255, .2);
+            border-radius: 40px;
+            font-size: 16px;
+            color: #fff;
+            padding: 20px 45px 20px 20px;
+        }
+        
+         button {
+            width: 100px;
+            height: 45px;
+            background: #fff;
+            border: none;
+            outline: none;
+            border-radius: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        } 
+
+        .back-video {
+            left: 0;
+            top: 0;
+            position: absolute;   
+            z-index: -1;
+        }
+
+        @media(min-aspect-ratio: 16/9) {
+        .back-video{
+            width: 100%;
+            height: auto;
+             }
+        }
+
+        @media(max-aspect-ratio: 16/9) {
+            .back-video{
+                width: auto;
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="whole">
+        <video autoplay loop unmute plays-inline class="back-video">
+            <source src="vgm.mp4" type="video/mp4">
+        </video>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Enter username" required>
+            <input type="password" id="password" placeholder="Enter password" required>
+            <button id="submit">Login</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then(response => response.json())
+            .then(users => {
+                const user = users.find(user => user.username === username);
+                
+                if (user) {
+                    if (password === "unknown") {
+                        window.location.href = "Page02.html";
+                    } else {
+                        alert("Incorrect password!");
+                    }
+                } else {
+                    alert("User not found!");
+                }
+            })
+            .catch(error => alert("Error fetching users:", error));
+    });
+</script>
+</html>

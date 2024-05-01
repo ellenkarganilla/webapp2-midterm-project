@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Page</title>
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .post-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid black;
+            border-radius: 10px;
+            margin: 50px auto;
+            border: 2px solid rgba(255, 255, 255, .2);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+            color: white;
+            border-radius: 10px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #postDetails {
+            align-content: center;
+            justify-content: center;
+            padding: 50px;
+            font-size: 20px;
+            line-height: 30px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9ff;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #f0f0f0;
+        }
+
+        .back-video{
+            left: 0;
+            top: 0;
+            position: absolute;   
+            z-index: -1;
+        }
+
+        @media(min-aspect-ratio: 16/9) {
+        .back-video{
+            width: 100%;
+            height: auto;
+             }
+        }
+
+        @media(max-aspect-ratio: 16/9) {
+            .back-video{
+                width: auto;
+                height: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <video autoplay loop unmute plays-inline class="back-video">
+            <source src="vgm3.mp4" type="video/mp4">
+        </video>
+    <div class="post-container">
+        <h1>Post Page</h1>
+        <div id="postDetails"></div>
+    </div>
+</body>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get("id");
+
+        fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
+            .then(response => response.json())
+            .then(post => {
+                const postDetails = document.getElementById("postDetails");
+                postDetails.innerHTML = `
+                    <h3>Title: ${post.title}</h3>
+                    <p>Body: ${post.body}</p>
+                `;
+            })
+            .catch(error => console.error("Error fetching posts:", error));
+    });
+</script>
+</html>
